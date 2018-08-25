@@ -1,2 +1,6 @@
-server:
-  port: 8090
+spring:
+  profiles:
+    active: datasource,mybatis
+logging:
+  level:
+     ccxh.top.blog.github.mapper: debug

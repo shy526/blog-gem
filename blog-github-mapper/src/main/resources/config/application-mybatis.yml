@@ -2,7 +2,7 @@ mybatis:
   # mapper配置文件
   config-location: classpath:/mybatis/mybatis-config.xml
   # mmapper扫描
-  mapper-locations: classpath:/mybatis/mappers/*.xml
+  mapper-locations: classpath:/mybatis/mapper/*.xml
   # 别名包
   type-aliases-package: ccxh.top.blog.github.mapper.pojo
 #通用mapper

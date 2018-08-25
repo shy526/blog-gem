@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    active: datasource,mybatis
+http:
+  client:
+    connectionRequestTimeout: 500
+    connectTimeout: 50000
+    socketTimeout: 30000
+    staleConnectionCheckEnabled: true
+    maxTotal: 100
+    defaultMaxPerRoute: 100
+logging:
+  level:
+     ccxh.top.blog.github.mapper: debug

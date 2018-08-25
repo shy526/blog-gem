@@ -12,6 +12,7 @@
     <module>blog-github</module>
       <module>blog-github-mapper</module>
     <module>mapper-core</module>
+      <module>blog-schedule</module>
   </modules>
 
   <name>blog-gem</name>
@@ -39,7 +40,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

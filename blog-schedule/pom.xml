@@ -9,9 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>blog-github-mapper</artifactId>
+    <artifactId>blog-schedule</artifactId>
 
-    <name>blog-github-mapper</name>
+    <name>blog-schedule</name>
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
 
@@ -27,17 +27,20 @@
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>ccxh.top</groupId>
-            <artifactId>mapper-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <groupId>cn.bestwu</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2-unwrap</version>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
+            <groupId>top.ccxh</groupId>
+            <artifactId>httpclient-spring-boot-starter</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
-
+        <dependency>
+            <groupId>ccxh.top</groupId>
+            <artifactId>blog-github-mapper</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -45,8 +48,8 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <!---->
-                    <classifier>exec</classifier>
+                    <!--被公共依赖的排除-->
+                    <!--   <classifier>exec</classifier>-->
                 </configuration>
             </plugin>
             <plugin>
@@ -62,12 +65,10 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.19.1</version>
                 <configuration>
-                    <!--默认关掉单元测试 -->
-                    <skipTests>true</skipTests>
+                    <skipTests>true</skipTests>    <!--默认关掉单元测试 -->
                 </configuration>
             </plugin>
         </plugins>
 
     </build>
-
 </project>
