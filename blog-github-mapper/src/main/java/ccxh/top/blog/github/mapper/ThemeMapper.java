@@ -25,4 +25,11 @@ public interface ThemeMapper extends SysMapper<ThemePojo> {
      * @return
      */
     List<ThemePojo> selectThemePage(@Param("index") int backPageNum, @Param("num")Integer num);
+
+    /**
+     *根据主键批量删除
+     * @param list
+     * @return
+     */
+    Integer bathDeleteById(List<ThemePojo> list);
 }

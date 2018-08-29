@@ -9,7 +9,6 @@ public class Result {
     private Object data;
 
 
-
     public static Result ok(Object data){
         Result result = new Result();
         result.setCode(200);

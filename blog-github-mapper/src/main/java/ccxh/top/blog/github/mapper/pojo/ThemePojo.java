@@ -37,6 +37,16 @@ public class ThemePojo extends BasePojo {
      */
     private String des;
 
+    private Integer userId;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     public String getName() {
         return name;
     }

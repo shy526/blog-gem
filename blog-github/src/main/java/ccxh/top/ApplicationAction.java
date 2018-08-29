@@ -23,9 +23,9 @@ public class ApplicationAction implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
         CountDownLatch countDownLatch = new CountDownLatch(1);
-/*        while (countDownLatch!=null){
+        while (countDownLatch!=null){
             countDownLatch.await();
             System.out.println("await");
-        }*/
+        }
     }
 }

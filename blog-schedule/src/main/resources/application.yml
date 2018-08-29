@@ -12,3 +12,7 @@ http:
 logging:
   level:
      ccxh.top.blog.github.mapper: debug
+
+path:
+  markdown:
+    root: 'd:\Users\admin\Desktop\c++'
