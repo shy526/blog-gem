@@ -1,4 +1,4 @@
-package ccxh.top.eception;
+package ccxh.top.exception;
 
 /**
  * 自定义异常

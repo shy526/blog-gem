@@ -15,5 +15,18 @@
 
     </insert>
 
+    <select id="selectMarkdownPageByThemeId" resultType="MarkdownPagePojo">
+        select id,<include refid="items"/> FROM <include refid="table_name"/> WHERE theme_id=#{id}
+    </select>
 
+    <delete id="deleteMarkdownPageByThemeId">
+        DELETE FROM <include refid="table_name"/> WHERE theme_id=#{id}
+    </delete>
+    <delete id="bathDeleteMarkdownPageByThemeId">
+        DELETE FROM <include refid="table_name"/>
+        WHERE theme_id in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item.id}
+        </foreach>
+    </delete>
 </mapper>

@@ -1,9 +1,11 @@
 package ccxh.top.pojo;
 
+import java.io.Serializable;
+
 /**
  * result
  */
-public class Result {
+public class Result implements Serializable {
     private Integer code;
     private String errorMessage;
     private Object data;

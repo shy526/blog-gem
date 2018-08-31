@@ -23,6 +23,7 @@ public class ApplicationAction implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
         CountDownLatch countDownLatch = new CountDownLatch(1);
+        //会影响测试
         while (countDownLatch!=null){
             countDownLatch.await();
             System.out.println("await");

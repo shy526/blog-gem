@@ -11,8 +11,10 @@ http:
     defaultMaxPerRoute: 100
 logging:
   level:
-     ccxh.top.blog.github.mapper: debug
+     ccxh.top.blog.github.mapper: info
 
 path:
   markdown:
-    root: 'd:\Users\admin\Desktop\c++'
+    root: 'C:\Users\admin\WebstormProjects\blog_node\public\markdown'
+    # 展示路径
+  html: '/markdown'

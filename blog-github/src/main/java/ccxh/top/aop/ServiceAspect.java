@@ -1,18 +1,12 @@
 package ccxh.top.aop;
 
-import ccxh.top.config.Service;
-import ccxh.top.eception.ServiceException;
 import ccxh.top.pojo.Result;
-import com.alibaba.dubbo.common.json.JSON;
-import netscape.javascript.JSObject;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
 
 /**
  * service所有方法 切面 统一 回复对象
@@ -28,22 +22,23 @@ public class ServiceAspect {
     @Around(value="execution(* ccxh.top.service.impl.*.*(..))")
     public Object aroundMethod(ProceedingJoinPoint jp){
         Long startTime=System.currentTimeMillis();
+        Object proceed=null;
         try {
-            Object proceed = jp.proceed();
+             proceed = jp.proceed();
             Long duration = System.currentTimeMillis() - startTime;
             if(duration<TIME_OUT_WARN_VALUE){
                 return proceed;
             }else if (duration>TIME_OUT_WARN_VALUE){
                 LOGGER.warn("{},调用时长:{}毫秒",jp.getSignature().getName(),duration);
             }else if (duration>TIME_OUT_VALUE){
-                //超时
+               return Result.error("service time out");
             }
         }catch (Exception e){
             return Result.error(e.getMessage());
         }catch (Throwable throwable) {
             throwable.printStackTrace();
         }
-        return null;
+        return proceed;
     }
 
 }
