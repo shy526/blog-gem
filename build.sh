@@ -1,7 +1,9 @@
 #!/bin/sh
+# jenkins 上 防止 进程kill
+#BUILD_ID=DONTKILLME
 APP_NAME="blog_gem"
 # 移动至目标目录
-RUN_PATH="./"
+RUN_PATH="/home/project/blog-gem/"
  log(){
     echo `date "+%Y-%m-%d %H:%M:%S  ----[$1]----$APP_NAME:$2"`
 }
@@ -23,20 +25,46 @@ kill_pid(){
     fi
 }
 
-echo "$APP_NAME"
-if [ !"$RUN_PATH" ];then
+assert(){
+if [ $? -eq 0 ]
+then
+    info_log "$1:succeed"
+else
+    info_log "$1:failure"
+    return 12
+fi
+}
+
+info_log "$APP_NAME"
+
+if [ ! $RUN_PATH ];then
   error_log "is null"
 fi
-info_log "开始移动目标文件至 $RUN_PATH"
-`cp "./blog-schedule/target/blog-schedule-1.0-SNAPSHOT.jar" "$RUN_PATH"`
-`cp "./blog-github/target/blog-github-1.0-SNAPSHOT.jar" "$RUN_PATH"`
-
+# 这里jenkis 不需要 __start
+info_log "拉取更新"
+git pull
+info_log "清理"
+mvn clean
+info_log "重新打包"
+mvn package
+# 这里jenkis 不需要 __end
 info_log "杀死旧进程"
-kill_pid "blog-schedule.pid"
-kill_pid "blog-github.pid"
+kill_pid "$RUN_PATH""blog-schedule.pid"
+kill_pid "$RUN_PATH""blog-github.pid"
+
+info_log "删除旧文件"
+`rm -rf "$RUN_PATH"blog-*`
+
+info_log "开始移动目标文件至$RUN_PATH"
+`cp "./blog-schedule/target/blog-schedule-1.0-SNAPSHOT.jar" "$RUN_PATH"`
+assert "blog-schedule"
+`cp "./blog-github/target/blog-github-1.0-SNAPSHOT.jar" "$RUN_PATH"`
+assert "blog-github"
 info_log "启动项目"
-`nohup java -jar "$RUN_PATH""blog-schedule-1.0-SNAPSHOT.jar" > "$RUN_PATH""logs/blog-schedule.out" &`
- echo $! > blog-schedule.pid
-`nohup java -jar "$RUN_PATH""blog-github-1.0-SNAPSHOT.jar" > "$RUN_PATH""logs/blog-github.out" &`
- echo $! > blog-github.pid
+`nohup java -jar "$RUN_PATH""blog-schedule-1.0-SNAPSHOT.jar" > "$RUN_PATH""logs/blog-schedule.out" 2>&1 & echo $! > "$RUN_PATH"blog-schedule.pid`
+assert "blog-schedule"
+`nohup java -jar "$RUN_PATH""blog-github-1.0-SNAPSHOT.jar" > "$RUN_PATH""logs/blog-github.out" 2>&1 & echo $! > "$RUN_PATH"blog-github.pid`
+assert "blog-github"
+
+
 
