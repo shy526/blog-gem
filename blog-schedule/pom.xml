@@ -55,7 +55,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <!--被公共依赖的排除-->
-                    <!--   <classifier>exec</classifier>-->
+                   <!--  <classifier>exec</classifier>-->
                 </configuration>
             </plugin>
             <plugin>
