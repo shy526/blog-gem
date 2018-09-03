@@ -31,6 +31,7 @@ import java.nio.file.Paths;
 import java.util.*;
 
 /**
+ * 这个以后可能会重写 利用webhook 去做
  * github 数据获取的定时任务
  * @author admin
  */
@@ -100,7 +101,7 @@ public class GithubTask implements Task {
     private JSONArray  getGithubResult(String githubPath) {
         String result = null;
         try {
-            result = httpClientService.doGetSetHaeader(String.format(DEPOT_CONTENTS, "sunjiaqing", "testNote", githubPath), HEADER);
+            result = httpClientService.doGetSetHaeader(String.format(DEPOT_CONTENTS, "sunjiaqing", "blog-note", githubPath), HEADER);
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
@@ -129,7 +130,7 @@ public class GithubTask implements Task {
      */
     private void getDesc(ThemePojo themePojo) {
         try {
-            String s = httpClientService.doGetSetHaeader(String.format(DEPOT_CONTENTS, "sunjiaqing", "testNote", themePojo.getPath().concat(README))
+            String s = httpClientService.doGetSetHaeader(String.format(DEPOT_CONTENTS, "sunjiaqing", "blog-note", themePojo.getPath().concat(README))
                     , HEADER);
             if (StringUtil.isEmpty(s)) {
                 return;
@@ -189,7 +190,7 @@ public class GithubTask implements Task {
         int update=0;
         int insert=0;
         for (ThemePojo themePojo : updateList) {
-            File file = Paths.get(markdownRootPath,"sunjiaqing", "testNote", themePojo.getPath()).toFile();
+            File file = Paths.get(markdownRootPath,"sunjiaqing", "blog-note", themePojo.getPath()).toFile();
             //文件不存在 跳过
             if (!file.exists() || !file.isDirectory()) {
                 continue;
@@ -252,7 +253,7 @@ public class GithubTask implements Task {
      */
     private void deleteMarkdownPage(List<ThemePojo> db) {
         for (ThemePojo themePojo : db) {
-            Path fixation = Paths.get(markdownRootPath, "sunjiaqing", "testNote", themePojo.getPath());
+            Path fixation = Paths.get(markdownRootPath, "sunjiaqing", "blog-note", themePojo.getPath());
             File file = fixation.toFile();
             if (!file.exists()) {
                 return;
@@ -301,7 +302,7 @@ public class GithubTask implements Task {
             nowPage.body().select(".single-page").append(htmlPage);
             nowPage.title(markdownPage.getName());
             //基础路径
-            Path fixation = Paths.get("sunjiaqing", "testNote", markdownPage.getPath() + ".html");
+            Path fixation = Paths.get("sunjiaqing", "blog-note", markdownPage.getPath() + ".html");
             markdownPage.setLocalPath(Paths.get(markdownRootPath, fixation.toString()).toString());
             markdownPage.setShowUrl(Paths.get(showBasePath + fixation.toString()).toString());
             File file = new File(markdownPage.getLocalPath()).getParentFile();
