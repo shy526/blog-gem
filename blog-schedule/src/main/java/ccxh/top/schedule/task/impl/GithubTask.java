@@ -304,9 +304,8 @@ public class GithubTask implements Task {
             nowPage.title(markdownPage.getName());
             //基础路径
             Path fixation = Paths.get("sunjiaqing", "blog-note",markdownPage.getPath()+ ".html");
-            String fixationEncode = URLEncoder.encode(fixation.toString(), "utf-8");
-            markdownPage.setLocalPath(Paths.get(markdownRootPath, fixationEncode).toString());
-            markdownPage.setShowUrl(Paths.get(showBasePath ,fixationEncode).toString());
+            markdownPage.setLocalPath(Paths.get(markdownRootPath, fixation.toString()).toString());
+            markdownPage.setShowUrl(Paths.get(showBasePath ,fixation.toString()).toString());
             File file = new File(markdownPage.getLocalPath()).getParentFile();
             if (!file.exists()) {
                 if (!file.mkdirs()) {
