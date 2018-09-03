@@ -6,11 +6,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
 
 /**
  * 初始化一些做操
  * @author admin
  */
+@Component
 public class ApplicationRun implements ApplicationRunner {
     private final static Logger LOGGER= LoggerFactory.getLogger(ApplicationRun.class);
     @Autowired
