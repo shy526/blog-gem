@@ -26,6 +26,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -302,9 +303,9 @@ public class GithubTask implements Task {
             nowPage.body().select(".single-page").append(htmlPage);
             nowPage.title(markdownPage.getName());
             //基础路径
-            Path fixation = Paths.get("sunjiaqing", "blog-note", markdownPage.getPath() + ".html");
+            Path fixation = Paths.get(URLEncoder.encode("sunjiaqing","utf-8"), URLEncoder.encode("blog-note","utf-8"),URLEncoder.encode("markdownPage.getPath() ","utf-8") + ".html");
             markdownPage.setLocalPath(Paths.get(markdownRootPath, fixation.toString()).toString());
-            markdownPage.setShowUrl(Paths.get(showBasePath + fixation.toString()).toString());
+            markdownPage.setShowUrl(Paths.get(showBasePath ,fixation.toString()).toString());
             File file = new File(markdownPage.getLocalPath()).getParentFile();
             if (!file.exists()) {
                 if (!file.mkdirs()) {

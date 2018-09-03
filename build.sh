@@ -17,7 +17,7 @@ warn_log(){
     log "warn" "$1"
 }
 kill_pid(){
-    if [ ! -d "$1" ]; then
+    if [ ! -f $1: ]; then
         warn_log "$1 inexistence"
     else
         pid=`cat "$1"`
