@@ -298,7 +298,7 @@ public class GithubTask implements Task {
         try {
             Document githubPage = Jsoup.connect(markdownPage.getUrl()).get();
             String htmlPage = githubPage.body().select("#readme").html();
-            Document nowPage = Jsoup.parse(ResourceUtils.getFile("classpath:markdown_template.html"), "utf-8");
+            Document nowPage = Jsoup.parse(IOUtil.readJarFileString("/markdown_template.html"));
             nowPage.body().select(".single-page").append(htmlPage);
             nowPage.title(markdownPage.getName());
             //基础路径
