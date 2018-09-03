@@ -59,7 +59,6 @@ public class IOUtil {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new BufferedInputStream(inputStream), "utf-8"));
         String str=null;
         while ((str=bufferedReader.readLine())!=null){
-            System.out.println("str = " + str);
             sb.append(str).append('\n');
         }
         return sb.toString();
