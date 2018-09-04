@@ -11,6 +11,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +24,12 @@ import sun.misc.BASE64Decoder;
 import tk.mybatis.mapper.util.StringUtil;
 import top.ccxh.httpclient.service.HttpClientService;
 
+import javax.print.DocFlavor;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -298,7 +302,20 @@ public class GithubTask implements Task {
         MarkdownPagePojo markdownPage = getMarkdownPage(themePojo, next);
         try {
             Document githubPage = Jsoup.connect(markdownPage.getUrl()).get();
-            String htmlPage = githubPage.body().select("#readme").html();
+            //获取哪个啥
+            Elements select = githubPage.body().select("#readme");
+            //处理图片 无法显示的问题
+            Elements imgs = select.select("img");
+            ListIterator<Element> imgIterator = imgs.listIterator();
+            URL url = new URL(markdownPage.getUrl());
+            while (imgIterator.hasNext()){
+                Element img = imgIterator.next();
+                String src = img.attr("src");
+                img.attr("src",url.getProtocol()+"://"+url.getHost()+src);
+                String href = img.parent().attr("href");
+                img.parent().attr("href",url.getProtocol()+"://"+url.getHost()+href);
+            }
+            String htmlPage = select.html();
             Document nowPage = Jsoup.parse(IOUtil.readJarFileString("/markdown_template.html"));
             nowPage.body().select(".single-page").append(htmlPage);
             nowPage.title(markdownPage.getName());
@@ -372,4 +389,6 @@ public class GithubTask implements Task {
         insertList.add(now);
 
     }
+
+
 }
