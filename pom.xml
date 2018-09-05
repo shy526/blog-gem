@@ -13,6 +13,7 @@
       <module>blog-github-mapper</module>
     <module>mapper-core</module>
       <module>blog-schedule</module>
+    <module>blog-gem-api</module>
   </modules>
 
   <name>blog-gem</name>

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="ccxh.top.blog.github.mapper.ThemeMapper">
-    <sql id="items">`name`,path,sha,url,parent,des,create_time,update_time,user_id</sql>
+    <sql id="items">`name`,path,parent,des,create_time,update_time,user_id</sql>
     <sql id="table_name">t_blog_theme</sql>
 
     <insert id="bathInsert">
@@ -11,7 +11,7 @@
         (<include refid="items"/>)
         VALUES
         <foreach collection="list" item="item" separator=",">
-            (#{item.name}, #{item.path}, #{item.sha}, #{item.url}, #{item.parent}, #{item.des}, #{item.createTime},
+            (#{item.name}, #{item.path}, #{item.parent}, #{item.des}, #{item.createTime},
             #{item.updateTime},#{item.userId})
         </foreach>
     </insert>

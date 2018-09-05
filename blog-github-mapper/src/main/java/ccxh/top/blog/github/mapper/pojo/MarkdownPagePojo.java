@@ -15,14 +15,7 @@ public class MarkdownPagePojo extends BasePojo {
      * 名称
      */
     private String name;
-    /**
-     * sha
-     */
-    private String sha;
-    /**
-     * 物理大小
-     */
-    private Long size;
+
     /**
      * 主题
      */
@@ -40,32 +33,11 @@ public class MarkdownPagePojo extends BasePojo {
      */
     private String showUrl;
     /**
-     * github 提供的下载链接
-     */
-    private String downloadUrl;
-    /**
      * github服务器路径
      */
     private String path;
 
-    @Transient
-    private String themeSha;
 
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getThemeSha() {
-        return themeSha;
-    }
-
-    public void setThemeSha(String themeSha) {
-        this.themeSha = themeSha;
-    }
 
     public String getName() {
         return name;
@@ -75,20 +47,12 @@ public class MarkdownPagePojo extends BasePojo {
         this.name = name;
     }
 
-    public String getSha() {
-        return sha;
+    public String getPath() {
+        return path;
     }
 
-    public void setSha(String sha) {
-        this.sha = sha;
-    }
-
-    public Long getSize() {
-        return size;
-    }
-
-    public void setSize(Long size) {
-        this.size = size;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public Integer getThemeId() {
@@ -123,11 +87,4 @@ public class MarkdownPagePojo extends BasePojo {
         this.showUrl = showUrl;
     }
 
-    public String getDownloadUrl() {
-        return downloadUrl;
-    }
-
-    public void setDownloadUrl(String downloadUrl) {
-        this.downloadUrl = downloadUrl;
-    }
 }

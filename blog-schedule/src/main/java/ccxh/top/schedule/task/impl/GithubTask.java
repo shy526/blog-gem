@@ -1,3 +1,4 @@
+/*
 package ccxh.top.schedule.task.impl;
 
 import ccxh.top.blog.github.mapper.MarkdownPageMapper;
@@ -35,11 +36,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+*/
 /**
  * 这个以后可能会重写 利用webhook 去做
  * github 数据获取的定时任务
  * @author admin
- */
+ *//*
+
 @Component
 public class GithubTask implements Task {
     private final static Logger logger = LoggerFactory.getLogger(GithubTask.class);
@@ -47,9 +50,11 @@ public class GithubTask implements Task {
     private final static String README = "/README.md";
     private final static BASE64Decoder DECODER = new BASE64Decoder();
     private final static Map<String, String> HEADER = new HashMap<>();
-    /**
+    */
+/**
      * 生成后的保存地址
-     */
+     *//*
+
     @Value("${path.markdown.root}")
     private String markdownRootPath;
     @Value("${path.html}")
@@ -98,11 +103,13 @@ public class GithubTask implements Task {
 
     }
 
-    /**
+    */
+/**
      * 从gethub中获取数据
      * @param githubPath
      * @return JSONArray
-     */
+     *//*
+
     private JSONArray  getGithubResult(String githubPath) {
         String result = null;
         try {
@@ -128,11 +135,13 @@ public class GithubTask implements Task {
         return null;
     }
 
-    /**
+    */
+/**
      * 获取主题描述
      *
      * @param themePojo
-     */
+     *//*
+
     private void getDesc(ThemePojo themePojo) {
         try {
             String s = httpClientService.doGetSetHaeader(String.format(DEPOT_CONTENTS, "sunjiaqing", "blog-note", themePojo.getPath().concat(README))
@@ -151,10 +160,12 @@ public class GithubTask implements Task {
         }
     }
 
-    /**
+    */
+/**
      * 分配 更新 删除 和新建立的主题
      * @param now
-     */
+     *//*
+
     private void disposeTheme(List<ThemePojo> now) {
         if (now.size() <= 0) {
             return;
@@ -186,10 +197,12 @@ public class GithubTask implements Task {
         updateMarkdownPage(updateList);
     }
 
-    /**
+    */
+/**
      * 更新主题下的markown
      * @param updateList
-     */
+     *//*
+
     private void updateMarkdownPage(List<ThemePojo> updateList) {
         int delete=0;
         int update=0;
@@ -251,11 +264,13 @@ public class GithubTask implements Task {
         logger.info("update total insert:{},delete:{},update:{}", insert, delete,update);
     }
 
-    /**
+    */
+/**
      * 某个主题被删除
      *
      * @param db
-     */
+     *//*
+
     private void deleteMarkdownPage(List<ThemePojo> db) {
         for (ThemePojo themePojo : db) {
             Path fixation = Paths.get(markdownRootPath, "sunjiaqing", "blog-note", themePojo.getPath());
@@ -267,11 +282,13 @@ public class GithubTask implements Task {
         }
     }
 
-    /**
+    */
+/**
      * 创建markdownPage
      *
      * @param
-     */
+     *//*
+
     private void crateMarkdownPage(List<ThemePojo> list) {
         for (ThemePojo themePojo : list) {
             JSONArray jsonArray = getGithubResult(themePojo.getPath());
@@ -292,12 +309,14 @@ public class GithubTask implements Task {
         }
     }
 
-    /**
+    */
+/**
      * 生成 markdown html
      * @param themePojo 主题对象
      * @param next
      * @return
-     */
+     *//*
+
     private MarkdownPagePojo generateMarkdownHTML(ThemePojo themePojo, JSONObject next)  {
         MarkdownPagePojo markdownPage = getMarkdownPage(themePojo, next);
         try {
@@ -344,13 +363,15 @@ public class GithubTask implements Task {
     }
 
 
-    /**
+    */
+/**
      * 组装基本markdownPagePojo 对象
      *
      * @param themePojo
      * @param next
      * @return
-     */
+     *//*
+
     private MarkdownPagePojo getMarkdownPage(ThemePojo themePojo, JSONObject next) {
         MarkdownPagePojo page = JSON.toJavaObject(next, MarkdownPagePojo.class);
         page.setDownloadUrl(next.getString("download_url"));
@@ -360,13 +381,15 @@ public class GithubTask implements Task {
         return page;
     }
 
-    /**
+    */
+/**
      * 筛选相同的path
      *
      * @param db
      * @param now
      * @return
-     */
+     *//*
+
     private void allotTheme(List<ThemePojo> db, ThemePojo now, List<ThemePojo> updateList, List<ThemePojo> insertList) {
         Iterator<ThemePojo> iterator = db.iterator();
         //删除要有迭代器 否则 下次迭代 时抛出java.util.ConcurrentModificationException: null
@@ -392,3 +415,4 @@ public class GithubTask implements Task {
 
 
 }
+*/

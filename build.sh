@@ -49,22 +49,30 @@ info_log "重新打包"
 mvn package
 # 这里jenkis 不需要 __end
 info_log "杀死旧进程"
-kill_pid "$RUN_PATH""blog-schedule.pid"
+#kill_pid "$RUN_PATH""blog-schedule.pid"
 kill_pid "$RUN_PATH""blog-github.pid"
+kill_pid "$RUN_PATH""blog-gem-api.pid"
 
 info_log "删除旧文件"
 `rm -rf "$RUN_PATH"blog-*`
 
 info_log "开始移动目标文件至$RUN_PATH"
-`cp "./blog-schedule/target/blog-schedule-1.0-SNAPSHOT.jar" "$RUN_PATH"`
-assert "blog-schedule"
+#`cp "./blog-schedule/target/blog-schedule-1.0-SNAPSHOT.jar" "$RUN_PATH"`
+#assert "blog-schedule"
 `cp "./blog-github/target/blog-github-1.0-SNAPSHOT.jar" "$RUN_PATH"`
 assert "blog-github"
+
+`cp "./blog-github/target/blog-gem-api-1.0-SNAPSHOT.jar" "$RUN_PATH"`
+assert "blog-gem-api"
+
 info_log "启动项目"
-`nohup java -jar "$RUN_PATH""blog-schedule-1.0-SNAPSHOT.jar" > "$RUN_PATH""logs/blog-schedule.out" 2>&1 & echo $! > "$RUN_PATH"blog-schedule.pid`
-assert "blog-schedule"
+#`nohup java -jar "$RUN_PATH""blog-schedule-1.0-SNAPSHOT.jar" > "$RUN_PATH""logs/blog-schedule.out" 2>&1 & echo $! > "$RUN_PATH"blog-schedule.pid`
+#assert "blog-schedule"
 `nohup java -jar "$RUN_PATH""blog-github-1.0-SNAPSHOT.jar" > "$RUN_PATH""logs/blog-github.out" 2>&1 & echo $! > "$RUN_PATH"blog-github.pid`
 assert "blog-github"
+`nohup java -jar "$RUN_PATH""blog-gem-api-1.0-SNAPSHOT.jar" > "$RUN_PATH""logs/blog-github.out" 2>&1 & echo $! > "$RUN_PATH"blog-gem-api.pid`
+assert "blog-gem-api"
+
 
 
 

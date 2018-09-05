@@ -3,6 +3,7 @@ package ccxh.top.blog.github.mapper;
 import ccxh.top.blog.github.mapper.pojo.MarkdownPagePojo;
 import ccxh.top.blog.github.mapper.pojo.ThemePojo;
 import ccxh.top.mapper.core.SysMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -38,4 +39,6 @@ public interface MarkdownPageMapper extends SysMapper<MarkdownPagePojo> {
      * @return
      */
     Integer bathDeleteMarkdownPageByThemeId(List<ThemePojo> list);
+
+    Integer updateTimeById(@Param("id") Integer id, @Param("time") long time);
 }

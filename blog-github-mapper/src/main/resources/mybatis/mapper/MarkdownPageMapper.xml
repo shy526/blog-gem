@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="ccxh.top.blog.github.mapper.MarkdownPageMapper">
-    <sql id="items">`name`,sha,theme_id,path,local_path,url,show_url,download_url,`size`,create_time,update_time</sql>
+    <sql id="items">`name`,theme_id,path,local_path,url,show_url,create_time,update_time</sql>
     <sql id="table_name">t_blog_genm_page</sql>
 
     <insert id="insertThemeId">
@@ -10,7 +10,7 @@
         <include refid="table_name"/>
         (<include refid="items"/>)
         VALUES
-            (#{name}, #{sha}, (select id from t_blog_theme WHERE sha= #{themeSha}), #{path}, #{localPath}, #{url}, #{showUrl},#{downloadUrl},#{size},#{createTime},
+            (#{name}, (select id from t_blog_theme WHERE path= #{path} and user_id=#{userId} ), #{path}, #{localPath}, #{url}, #{showUrl},#{createTime},
             #{updateTime})
 
     </insert>
@@ -29,4 +29,8 @@
             #{item.id}
         </foreach>
     </delete>
+
+    <update id="updateTimeById">
+        update <include refid="table_name"/> SET update_time=#{time} WHERE id=#{id}
+    </update>
 </mapper>

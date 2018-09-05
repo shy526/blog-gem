@@ -18,14 +18,6 @@ public class ThemePojo extends BasePojo {
      * 目录
      */
     private String path;
-    /**
-     * 唯一sha
-     */
-    private String sha;
-    /**
-     * github url
-     */
-    private String url;
 
     /**
      * 父目录
@@ -63,21 +55,7 @@ public class ThemePojo extends BasePojo {
         this.path = path;
     }
 
-    public String getSha() {
-        return sha;
-    }
 
-    public void setSha(String sha) {
-        this.sha = sha;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
     public Integer getParent() {
         return parent;
