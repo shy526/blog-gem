@@ -17,7 +17,7 @@ warn_log(){
     log "warn" "$1"
 }
 kill_pid(){
-    if [ ! -f $1: ]; then
+    if [ ! -f $1 ]; then
         warn_log "$1 inexistence"
     else
         pid=`cat "$1"`
@@ -70,7 +70,7 @@ info_log "Æô¶¯ÏîÄ¿"
 #assert "blog-schedule"
 `nohup java -jar "$RUN_PATH""blog-github-1.0-SNAPSHOT.jar" > "$RUN_PATH""logs/blog-github.out" 2>&1 & echo $! > "$RUN_PATH"blog-github.pid`
 assert "blog-github"
-`nohup java -jar "$RUN_PATH""blog-gem-api-1.0-SNAPSHOT.jar" > "$RUN_PATH""logs/blog-github.out" 2>&1 & echo $! > "$RUN_PATH"blog-gem-api.pid`
+`nohup java -jar "$RUN_PATH""blog-gem-api-1.0-SNAPSHOT.jar" > "$RUN_PATH""logs/blog-gem-api.out" 2>&1 & echo $! > "$RUN_PATH"blog-gem-api.pid`
 assert "blog-gem-api"
 
 
