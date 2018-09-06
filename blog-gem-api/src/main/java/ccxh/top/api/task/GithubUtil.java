@@ -46,70 +46,77 @@ public class GithubUtil {
     @Autowired
     private ThemeMapper themeMapper;
     private final static Map<String, String> HEADER = new HashMap<>();
+
     static {
         HEADER.put("User-Agent", "Awesome-Octocat-App");
         HEADER.put("Tonke", "token b6b6434dddf0a00c5ddce1884aaba642dd1cfcd5");
     }
+
     private final static String DEPOT_CONTENTS = "https://api.github.com/repos/%s/%s/contents/%s";
     private final static String GITHUB_PAGE = "https://github.com/%s/%s/blob/master/%s";
     public final static String README = "/README.md";
     private final static BASE64Decoder DECODER = new BASE64Decoder();
+
     /**
      * MarkdownPagePojo
+     *
      * @param themePojo 主题对象
-     * @param next 那啥
+     * @param next      那啥
      * @return
      */
-    public MarkdownPagePojo generateMarkdownHTML(ThemePojo themePojo, JSONObject next,UserPojo user)  {
+    public MarkdownPagePojo generateMarkdownHTML(ThemePojo themePojo, JSONObject next, UserPojo user) {
         MarkdownPagePojo markdownPage = getMarkdownPage(themePojo, next);
         try {
-            outputmarkdown(markdownPage,user) ;
+            outputmarkdown(markdownPage, user);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return markdownPage;
     }
 
-    private void outputmarkdown(MarkdownPagePojo markdownPage,UserPojo user) throws Exception {
-            Document githubPage = Jsoup.connect(markdownPage.getUrl()).get();
-            //获取哪个啥
-            Elements select = githubPage.body().select("#readme");
-            //处理图片 无法显示的问题
-            Elements imgs = select.select("img");
-            ListIterator<Element> imgIterator = imgs.listIterator();
-            URL url = new URL(markdownPage.getUrl());
-            while (imgIterator.hasNext()){
-                Element img = imgIterator.next();
-                String src = img.attr("src");
-                img.attr("src",url.getProtocol()+"://"+url.getHost()+src);
-                String href = img.parent().attr("href");
-                img.parent().attr("href",url.getProtocol()+"://"+url.getHost()+href);
+    private void outputmarkdown(MarkdownPagePojo markdownPage, UserPojo user) throws Exception {
+        Document githubPage = Jsoup.connect(markdownPage.getUrl()).get();
+        //获取哪个啥
+        Elements select = githubPage.body().select("#readme");
+        //处理图片 无法显示的问题
+        Elements imgs = select.select("img");
+        ListIterator<Element> imgIterator = imgs.listIterator();
+        URL url = new URL(markdownPage.getUrl());
+        while (imgIterator.hasNext()) {
+            Element img = imgIterator.next();
+            String src = img.attr("src");
+            img.attr("src", url.getProtocol() + "://" + url.getHost() + src);
+            String href = img.parent().attr("href");
+            img.parent().attr("href", url.getProtocol() + "://" + url.getHost() + href);
+        }
+        String htmlPage = select.html();
+        Document nowPage = Jsoup.parse(IOUtil.readJarFileString("/markdown_template.html"));
+        nowPage.body().select(".single-page").append(htmlPage);
+        nowPage.title(markdownPage.getName());
+        //基础路径
+        //    Path fixation = Paths.get(user.getGithubName(), user.getGithubRepot(),markdownPage.getPath()+ ".html");
+        // markdownPage.setLocalPath(Paths.get(markdownRootPath, fixation.toString()).toString());
+        // markdownPage.setShowUrl(Paths.get(showBasePath ,fixation.toString()).toString());
+        String fixation = user.getGithubName() + "/" + user.getGithubRepot() + "/" + markdownPage.getPath() + ".html";
+        markdownPage.setLocalPath(markdownRootPath + "/" + fixation);
+        markdownPage.setShowUrl(showBasePath + "/" + fixation);
+        File file = new File(markdownPage.getLocalPath()).getParentFile();
+        if (!file.exists()) {
+            if (!file.mkdirs()) {
+                return;
             }
-            String htmlPage = select.html();
-            Document nowPage = Jsoup.parse(IOUtil.readJarFileString("/markdown_template.html"));
-            nowPage.body().select(".single-page").append(htmlPage);
-            nowPage.title(markdownPage.getName());
-            //基础路径
-            Path fixation = Paths.get(user.getGithubName(), user.getGithubRepot(),markdownPage.getPath()+ ".html");
-            markdownPage.setLocalPath(Paths.get(markdownRootPath, fixation.toString()).toString());
-            markdownPage.setShowUrl(Paths.get(showBasePath ,fixation.toString()).toString());
-            File file = new File(markdownPage.getLocalPath()).getParentFile();
-            if (!file.exists()) {
-                if (!file.mkdirs()) {
-                    return;
-                }
-            }
-            //语法糖需要 那啥
-            try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(
-                    new FileOutputStream(markdownPage.getLocalPath()))) {
-                bufferedOutputStream.write(nowPage.outerHtml().getBytes());
-                bufferedOutputStream.flush();
-            } catch (IOException e) {
-                throw new RuntimeException(e.getMessage(), e);
-            }
+        }
+        //语法糖需要 那啥
+        try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(
+                new FileOutputStream(markdownPage.getLocalPath()))) {
+            bufferedOutputStream.write(nowPage.outerHtml().getBytes());
+            bufferedOutputStream.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
         File back = new File(markdownPage.getLocalPath());
-        if (!back.exists()){
-            LOGGER.info("markdown 生成失败:{}",JSON.toJSONString(markdownPage));
+        if (!back.exists()) {
+            LOGGER.info("markdown 生成失败:{}", JSON.toJSONString(markdownPage));
         }
     }
 
@@ -190,15 +197,15 @@ public class GithubUtil {
 
     public MarkdownPagePojo createMarkdown(String path, UserPojo user) {
         MarkdownPagePojo page = new MarkdownPagePojo();
-        page.setUrl(String.format(GITHUB_PAGE,user.getGithubName(),user.getGithubRepot(),path));
+        page.setUrl(String.format(GITHUB_PAGE, user.getGithubName(), user.getGithubRepot(), path));
         String[] split = path.split("/");
-        if (split.length>2){
+        if (split.length > 2) {
             return null;
         }
         page.setName(split[1]);
         page.setPath(path);
         try {
-            outputmarkdown(page,user);
+            outputmarkdown(page, user);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -208,10 +215,11 @@ public class GithubUtil {
 
     /**
      * 父亲
+     *
      * @param path 根据path 和userid 确认markdown的主题
      * @return
      */
-    public ThemePojo getParentTheme(String path,UserPojo user) {
+    public ThemePojo getParentTheme(String path, UserPojo user) {
         String[] split = path.split("/");
         ThemePojo condition = new ThemePojo();
         condition.setUserId(user.getId());
