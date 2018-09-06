@@ -10,6 +10,6 @@ logging:
   level:
 path:
   markdown:
-    root: '/home/project/node/blog/blog_node/public/markdown'
+    root: '/home/project/node/blog_node/public/markdown'
     # 展示路径
   html: '/markdown'

@@ -107,6 +107,10 @@ public class GithubUtil {
             } catch (IOException e) {
                 throw new RuntimeException(e.getMessage(), e);
             }
+        File back = new File(markdownPage.getLocalPath());
+        if (!back.exists()){
+            LOGGER.info("markdown 生成失败:{}",JSON.toJSONString(markdownPage));
+        }
     }
 
     /**
