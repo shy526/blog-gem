@@ -50,6 +50,15 @@ public class MarkdownAdded implements Runnable {
                 themeFlag++;
                 themePojo=newTheme;
             }
+            if (path.indexOf(GithubUtil.README)!=-1){
+                //说明新增了说明
+                githubUtil.getDesc(themePojo,user);
+                ThemePojo desc = new ThemePojo();
+                desc.setId(themePojo.getId());
+                desc.setDes(themePojo.getDes());
+                themeMapper.updateByPrimaryKeySelective(desc);
+                continue;
+            }
             MarkdownPagePojo markdown = githubUtil.createMarkdown(path, this.user);
             markdown.quickTime();
             markdown.setThemeId(themePojo.getId());

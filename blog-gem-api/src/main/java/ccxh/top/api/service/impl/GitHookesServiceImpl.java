@@ -64,7 +64,7 @@ public class GitHookesServiceImpl implements GitHookesService {
                 }
                 JSONArray removed = item.getJSONArray("removed");
                 if (removed!=null&&removed.size()>0){
-                    THREADPOOL.execute(new MarkdownRemoved(removed,dbUser,markdownRootPath,markdownPageMapper,themeMapper));
+                    THREADPOOL.execute(new MarkdownRemoved(removed,dbUser,markdownRootPath,markdownPageMapper,themeMapper,githubUtil));
                 }
                 JSONArray modified = item.getJSONArray("modified");
                 if (modified!=null&&modified.size()>0){

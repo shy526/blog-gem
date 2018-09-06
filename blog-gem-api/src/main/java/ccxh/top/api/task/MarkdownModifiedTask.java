@@ -35,18 +35,25 @@ public class MarkdownModifiedTask implements Runnable {
     public void run() {
         Iterator<Object> iterator = added.iterator();
         while (iterator.hasNext()){
+
             String path = (String) iterator.next();
+            if (path.indexOf(GithubUtil.README)!=-1){
+                //说明新增了说明
+                ThemePojo themePojo = githubUtil.getParentTheme(path,this.user);
+                githubUtil.getDesc(themePojo,this.user);
+                ThemePojo desc = new ThemePojo();
+                desc.setId(themePojo.getId());
+                desc.setDes(themePojo.getDes());
+                themeMapper.updateByPrimaryKeySelective(desc);
+                continue;
+            }
             File file = Paths.get(markdownRootPath, user.getGithubName(), user.getGithubRepot(), path+".html").toFile();
             if (file.exists()){
                 if (file.isFile()){
-                    String[] split = path.split("/");
-                    ThemePojo themePojo = new ThemePojo();
-                    themePojo.setUserId(this.user.getId());
-                    themePojo.setPath(split[0]);
-                    themePojo  = themeMapper.selectOne(themePojo);
+                    ThemePojo parent = githubUtil.getParentTheme(path,this.user);
                     MarkdownPagePojo condition = new MarkdownPagePojo();
                     condition.setPath(path);
-                    condition.setThemeId(themePojo.getId());
+                    condition.setThemeId(parent.getId());
                     MarkdownPagePojo pagePojo = markdownPageMapper.selectOne(condition);
                     markdownPageMapper.updateTimeById(pagePojo.getId(),System.currentTimeMillis());
                     githubUtil.createMarkdown(path,this.user);
@@ -55,4 +62,6 @@ public class MarkdownModifiedTask implements Runnable {
         }
         LOGGER.info("修改--- github用户名:{},仓库:{},文件:{}",user.getGithubName(),user.getGithubRepot(),added.size());
     }
+
+
 }

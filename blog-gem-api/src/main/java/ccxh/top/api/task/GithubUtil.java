@@ -1,6 +1,7 @@
 package ccxh.top.api.task;
 
 import ccxh.top.api.util.IOUtil;
+import ccxh.top.blog.github.mapper.ThemeMapper;
 import ccxh.top.blog.github.mapper.pojo.MarkdownPagePojo;
 import ccxh.top.blog.github.mapper.pojo.ThemePojo;
 import ccxh.top.blog.github.mapper.pojo.UserPojo;
@@ -41,6 +42,9 @@ public class GithubUtil {
     private String showBasePath;
     @Autowired
     private HttpClientService httpClientService;
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Autowired
+    private ThemeMapper themeMapper;
     private final static Map<String, String> HEADER = new HashMap<>();
     static {
         HEADER.put("User-Agent", "Awesome-Octocat-App");
@@ -48,7 +52,7 @@ public class GithubUtil {
     }
     private final static String DEPOT_CONTENTS = "https://api.github.com/repos/%s/%s/contents/%s";
     private final static String GITHUB_PAGE = "https://github.com/%s/%s/blob/master/%s";
-    private final static String README = "/README.md";
+    public final static String README = "/README.md";
     private final static BASE64Decoder DECODER = new BASE64Decoder();
     /**
      * MarkdownPagePojo
@@ -195,5 +199,19 @@ public class GithubUtil {
             e.printStackTrace();
         }
         return page;
+    }
+
+
+    /**
+     * 父亲
+     * @param path 根据path 和userid 确认markdown的主题
+     * @return
+     */
+    public ThemePojo getParentTheme(String path,UserPojo user) {
+        String[] split = path.split("/");
+        ThemePojo condition = new ThemePojo();
+        condition.setUserId(user.getId());
+        condition.setPath(split[0]);
+        return themeMapper.selectOne(condition);
     }
 }

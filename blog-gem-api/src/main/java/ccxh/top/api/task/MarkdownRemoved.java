@@ -22,13 +22,16 @@ public class MarkdownRemoved implements Runnable {
     private String markdownRootPath;
     private MarkdownPageMapper markdownPageMapper;
     private ThemeMapper themeMapper;
+    private GithubUtil githubUtil;
     private final  static Logger LOGGER=LoggerFactory.getLogger(MarkdownRemoved.class);
-    public MarkdownRemoved(JSONArray delete, UserPojo user, String markdownRootPath, MarkdownPageMapper markdownPageMapper, ThemeMapper themeMapper) {
+    public MarkdownRemoved(JSONArray delete, UserPojo user, String markdownRootPath,
+                           MarkdownPageMapper markdownPageMapper, ThemeMapper themeMapper,GithubUtil githubUtil) {
         this.delete = delete;
         this.user = user;
         this.markdownRootPath = markdownRootPath;
         this.markdownPageMapper = markdownPageMapper;
         this.themeMapper = themeMapper;
+        this.githubUtil = githubUtil;
     }
 
     @Override
@@ -39,6 +42,16 @@ public class MarkdownRemoved implements Runnable {
             String path=(String) iterator.next();
             Path fixation = Paths.get(this.markdownRootPath, user.getGithubName(), user.getGithubRepot(), path+".html");
             File file = fixation.toFile();
+            if (path.indexOf(GithubUtil.README)!=-1){
+                //说明新增了说明
+                ThemePojo themePojo = githubUtil.getParentTheme(path,this.user);
+                ThemePojo desc = new ThemePojo();
+                desc.setId(themePojo.getId());
+                desc.setDes("");
+                themeMapper.updateByPrimaryKeySelective(desc);
+                themeMapper.updateByPrimaryKeySelective(desc);
+                continue;
+            }
             if (!file.exists()) {
                 return;
             }
