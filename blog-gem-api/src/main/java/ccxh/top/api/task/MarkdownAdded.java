@@ -34,7 +34,7 @@ public class MarkdownAdded implements Runnable {
         while (iterator.hasNext()){
             String path=(String) iterator.next();
             String[] split = path.split("/");
-            if(split.length!=2){return;}
+            if(split.length!=2){continue;}
             ThemePojo condition = new ThemePojo();
             condition.setUserId(this.user.getId());
             condition.setPath(split[0]);
