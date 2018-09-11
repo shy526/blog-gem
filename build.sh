@@ -4,6 +4,8 @@
 APP_NAME="blog_gem"
 # 移动至目标目录
 RUN_PATH="/home/project/blog-gem/"
+project1="blog-github/"
+project2="blog-gem-api/"
  log(){
     echo `date "+%Y-%m-%d %H:%M:%S  ----[$1]----$APP_NAME:$2"`
 }
@@ -50,8 +52,8 @@ mvn package
 # 这里jenkis 不需要 __end
 info_log "杀死旧进程"
 #kill_pid "$RUN_PATH""blog-schedule.pid"
-kill_pid "$RUN_PATH""blog-github.pid"
-kill_pid "$RUN_PATH""blog-gem-api.pid"
+kill_pid "$RUN_PATH""$project1""blog-github.pid"
+kill_pid "$RUN_PATH""$project2""blog-gem-api.pid"
 
 info_log "删除旧文件"
 `rm -rf "$RUN_PATH"blog-*`
@@ -59,18 +61,18 @@ info_log "删除旧文件"
 info_log "开始移动目标文件至$RUN_PATH"
 #`cp "./blog-schedule/target/blog-schedule-1.0-SNAPSHOT.jar" "$RUN_PATH"`
 #assert "blog-schedule"
-`cp "./blog-github/target/blog-github-1.0-SNAPSHOT.jar" "$RUN_PATH"`
+`cp "./blog-github/target/blog-github-1.0-SNAPSHOT.jar" "$RUN_PATH""$project1"`
 assert "blog-github"
 
-`cp "./blog-github/target/blog-gem-api-1.0-SNAPSHOT.jar" "$RUN_PATH"`
+`cp "./blog-github/target/blog-gem-api-1.0-SNAPSHOT.jar" "$RUN_PATH""$project2"`
 assert "blog-gem-api"
 
 info_log "启动项目"
 #`nohup java -jar "$RUN_PATH""blog-schedule-1.0-SNAPSHOT.jar" > "$RUN_PATH""logs/blog-schedule.out" 2>&1 & echo $! > "$RUN_PATH"blog-schedule.pid`
 #assert "blog-schedule"
-`nohup java -jar "$RUN_PATH""blog-github-1.0-SNAPSHOT.jar" > "$RUN_PATH""logs/blog-github.out" 2>&1 & echo $! > "$RUN_PATH"blog-github.pid`
+`nohup java -jar "$RUN_PATH""$project1""blog-github-1.0-SNAPSHOT.jar" > "$RUN_PATH""$project1""logs/blog-github.out" 2>&1 & echo $! > "$RUN_PATH""$project1"blog-github.pid`
 assert "blog-github"
-`nohup java -jar "$RUN_PATH""blog-gem-api-1.0-SNAPSHOT.jar" > "$RUN_PATH""logs/blog-gem-api.out" 2>&1 & echo $! > "$RUN_PATH"blog-gem-api.pid`
+`nohup java -jar "$RUN_PATH""$project2""blog-gem-api-1.0-SNAPSHOT.jar" > "$RUN_PATH""$project2""logs/blog-gem-api.out" 2>&1 & echo $! > "$RUN_PATH""$project2"blog-gem-api.pid`
 assert "blog-gem-api"
 
 

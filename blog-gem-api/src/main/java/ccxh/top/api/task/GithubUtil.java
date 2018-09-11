@@ -8,7 +8,6 @@ import ccxh.top.blog.github.mapper.pojo.UserPojo;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.catalina.User;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -27,8 +26,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.ListIterator;
 import java.util.Map;
@@ -119,6 +116,7 @@ public class GithubUtil {
             LOGGER.info("markdown 生成失败:{}", JSON.toJSONString(markdownPage));
         }
     }
+
 
     /**
      * 组装基本markdownPagePojo 对象
