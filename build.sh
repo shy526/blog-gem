@@ -56,7 +56,8 @@ kill_pid "$RUN_PATH""$project1""blog-github.pid"
 kill_pid "$RUN_PATH""$project2""blog-gem-api.pid"
 
 info_log "删除旧文件"
-`rm -rf "$RUN_PATH"blog-*`
+`rm -rf "$RUN_PATH""$project1"blog-*`
+`rm -rf "$RUN_PATH""$project2"blog-*`
 
 info_log "开始移动目标文件至$RUN_PATH"
 #`cp "./blog-schedule/target/blog-schedule-1.0-SNAPSHOT.jar" "$RUN_PATH"`
