@@ -1,0 +1,10 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea/
+blog-gem-api/src/test/
+blog-gem-api/target/
+blog-github-mapper/target/
+blog-github/target/
+blog-schedule/target/
+mapper-core/src/main/resources/
+mapper-core/src/test/
+mapper-core/target/

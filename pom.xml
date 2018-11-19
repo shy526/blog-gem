@@ -12,12 +12,11 @@
     <module>blog-github</module>
       <module>blog-github-mapper</module>
     <module>mapper-core</module>
-      <module>blog-schedule</module>
-    <module>blog-gem-api</module>
+    <module>blog-gem-web</module>
   </modules>
 
   <name>blog-gem</name>
-  <!-- FIXME change it to the project's website -->
+
   <url>http://www.example.com</url>
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -46,6 +45,11 @@
     </dependency>
   </dependencies>
 
+  <dependencyManagement>
+    <dependencies>
+
+    </dependencies>
+  </dependencyManagement>
   <build>
 
   </build>
